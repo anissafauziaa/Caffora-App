@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <title>Caffora — Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Fonts & Bootstrap -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons (untuk ikon kopi & toggle mata) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --gold: #ffd54f;
+        --gold-200: #ffe883;
+        --brown: #4b3f36;
+        --bg: #ffffff;
+        --muted: #8b8179;
+      }
+
+      /* ===== FULL WHITE MODE, SELARAS LOGIN ===== */
+      body {
+        font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto,
+          Arial, sans-serif;
+        background: #ffffff !important;
+        font-size: 1rem;
+        color: #000;
+        margin: 0;
+      }
+
+      .login-wrap {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 48px 24px;
+        background: #e9d7b7;
+      }
+
+      .login-card {
+        background: #ffffff;
+        box-shadow: 24px;
+        border: none;
+        border-radius: 15px;
+        width: 100%;
+        max-width: 420px; /* 🔹 lebar ideal desktop */
+        padding: 40px 32px;
+        margin: 0 auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15)
+      }
+
+      .brand {
+        font-family: "Playfair Display", serif;
+      }
+
+      .form-label {
+        font-weight: 600;
+      }
+
+      .form-control {
+        height: 48px;
+        border-radius: 999px; /* pill seperti login */
+        border: 1px solid #e5e7eb;
+        box-shadow: none;
+      }
+      .form-control:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 0.2rem rgba(255, 213, 79, 0.22);
+      }
+
+      .pw-input {
+        height: 48px;
+        border-radius: 999px;
+        padding-right: 48px; /* ruang ikon */
+      }
+
+      .btn-brand {
+        height: 48px;
+        border-radius: 999px;
+        font-weight: 700;
+        background: var(--gold);
+        color: var(--brown);
+        border: 0;
+      }
+      .btn-brand:hover {
+        background: var(--gold-200);
+        color: var(--brown);
+      }
+
+      .pw-wrap {
+        position: relative;
+      }
+      .pw-toggle {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: transparent;
+        color: #000;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .social-row {
+        display: flex;
+        justify-content: center;
+        gap: 22px;
+      }
+
+      .register-link,
+      .login-link {
+        text-decoration: none;
+      }
+      .register-link:hover,
+      .login-link:hover {
+        text-decoration: underline;
+      }
+
+      footer {
+        text-align: center;
+        margin: 28px 0 10px;
+        color: #9a948f;
+        font-size: 0.9rem;
+      }
+
+      /* ===== Modal S&K (tetap, gaya netral agar cocok dengan white mode) ===== */
+      .modal.custom-terms {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.35);
+        padding: 16px;
+        z-index: 1055;
+      }
+      .modal.custom-terms.open {
+        display: flex;
+      }
+      .modal-card {
+        width: 100%;
+        max-width: 640px;
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16);
+        overflow: hidden;
+      }
+      .modal-head {
+        padding: 14px 16px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .modal-title {
+        margin: 0;
+        font-weight: 600;
+      }
+      .modal-body {
+        max-height: 65vh;
+        overflow: auto;
+        padding: 16px;
+        line-height: 1.6;
+        font-size: 15px;
+        color: #444;
+      }
+      .modal-foot {
+        padding: 12px 16px;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+      .btn-outline {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        height: 40px;
+        padding: 0 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn-accept {
+        background: var(--gold);
+        color: var(--brown);
+        border: 0;
+        border-radius: 10px;
+        height: 40px;
+        padding: 0 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn-accept:disabled {
+        background: #f0e3b0;
+        color: #9b8a5d;
+      }
+
+      /* ===== RESPONSIVE MOBILE CLEAN MODE ===== */
+      @media (max-width: 480px) {
+        body {
+          background: #ffffff;
+          font-size: 0.9rem;
+        }
+        .login-wrap {
+          padding: 32px 20px;
+        }
+        .login-card {
+          max-width: 320px;
+        }
+        .form-control,
+        .pw-input,
+        .btn-brand {
+          height: 42px;
+          font-size: 0.9rem;
+          border-radius: 999px;
+        }
+        h2.brand {
+          font-size: 1.45rem;
+        }
+        .muted,
+        label,
+        small {
+          font-size: 0.85rem;
+        }
+        footer {
+          font-size: 0.8rem;
+        }
+        .social-row {
+          gap: 18px;
+        }
+        .social-row a svg {
+          width: 22px;
+          height: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-wrap">
+      <div class="login-card">
+        <!-- HEADER (match login) -->
+        <div class="text-center mb-3">
+          <i class="bi bi-cup-hot-fill fs-1 text-warning"></i>
+          <h2 class="brand m-0">Caffora</h2>
+          <p class="muted mb-0">Buat akun pelanggan</p>
+        </div>
+        <!-- FORM REGISTER -->
+        <form
+          id="registerForm"
+          action="../backend/register.php"
+          method="post"
+          novalidate
+        >
+          <div class="mb-3">
+            <label class="form-label">Nama Lengkap</label>
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              placeholder="Nama Anda"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              placeholder="email@contoh.com"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <div class="pw-wrap">
+              <input
+                type="password"
+                class="form-control pw-input"
+                id="password"
+                name="password"
+                placeholder="Minimal 6 karakter"
+                required
+              />
+              <button
+                type="button"
+                class="pw-toggle"
+                id="togglePw1"
+                aria-label="Tampilkan password"
+                aria-pressed="false"
+              >
+                <i id="eyeIcon1" class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Konfirmasi Password</label>
+            <div class="pw-wrap">
+              <input
+                type="password"
+                class="form-control pw-input"
+                id="confirm_password"
+                name="confirm_password"
+                placeholder="Ulangi password"
+                required
+              />
+              <button
+                type="button"
+                class="pw-toggle"
+                id="togglePw2"
+                aria-label="Tampilkan konfirmasi password"
+                aria-pressed="false"
+              >
+                <i id="eyeIcon2" class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- S&K -->
+          <div
+            class="d-flex align-items-center gap-2 my-2"
+            style="font-size: 14px"
+          >
+            <input id="agree" name="agree" type="checkbox" disabled />
+            <label for="agree" class="m-0">
+              Saya setuju dengan
+              <a
+                href="#"
+                id="openTerms"
+                style="color: #0d6efd; font-weight: 500"
+                >Syarat & Ketentuan</a
+              >
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-brand w-100">Daftar</button>
+        </form>
+
+        <div class="text-center my-3 muted">atau daftar dengan</div>
+
+        <!-- Sosial (SVG inline agar pasti muncul) -->
+        <div class="social-row mb-2">
+          <a href="http://google.com/" aria-label="Daftar dengan Google" title="Google">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              viewBox="0 0 533.5 544.3"
+              role="img"
+            >
+              <path
+                fill="#4285F4"
+                d="M533.5 278.4c0-17.4-1.6-34.1-4.6-50.4H272.1v95.3h146.9c-6.3 33.7-25.2 62.3-53.6 81.5l86.6 67.3c50.5-46.6 81.5-115.2 81.5-193.7z"
+              />
+              <path
+                fill="#34A853"
+                d="M272.1 544.3c72.9 0 134.1-24.1 178.8-65.5l-86.6-67.3c-24 16.1-54.8 25.6-92.2 25.6-70.9 0-131-47.9-152.6-112.1l-89.7 69.3c44.5 88.1 135.6 150 242.3 150z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M119.5 324.9c-5.6-16.8-8.8-34.7-8.8-53s3.2-36.2 8.8-53l-89.7-69.3C10.6 181.1 0 226.8 0 271.9s10.6 90.8 29.8 122.3l89.7-69.3z"
+              />
+              <path
+                fill="#EA4335"
+                d="M272.1 107.3c39.7 0 75.3 13.7 103.3 40.6l77.5-77.5C406.1 24.8 345 0 272.1 0 165.4 0 74.3 61.9 29.8 149.6l89.7 69.3c21.6-64.2 81.7-111.6 152.6-111.6z"
+              />
+            </svg>
+          </a>
+          <a href="#" aria-label="Daftar dengan Apple" title="Apple">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              viewBox="0 0 24 24"
+              role="img"
+              fill="#000"
+            >
+              <path
+                d="M16.365 1.43c0 1-.41 1.98-1.07 2.7-.69.76-1.84 1.34-2.85 1.24-.13-1.06.46-2.1 1.11-2.77.73-.75 1.99-1.3 2.81-1.17zM20.53 17.08c-.46 1.07-1.01 2.12-1.8 3.16-.96 1.25-2.16 2.8-3.74 2.83-1.4.03-1.85-.82-3.43-.82-1.58 0-2.07.8-3.46.85-1.59.06-2.8-1.35-3.77-2.59-2.06-2.62-3.65-7.41-1.52-10.64 1.08-1.66 2.9-2.71 4.92-2.74 1.53-.03 2.97 1.02 3.43 1.02.46 0 2.38-1.26 4.01-1.07.68.03 2.59.28 3.82 2.16-3.36 1.78-2.83 6.41.54 7.83z"
+              />
+            </svg>
+          </a>
+          <a href="http://facebook.com/" aria-label="Daftar dengan Facebook" title="Facebook">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              viewBox="0 0 24 24"
+              role="img"
+            >
+              <path
+                fill="#1877F2"
+                d="M24 12a12 12 0 1 0-13.875 11.85v-8.385H7.077V12h3.048V9.356c0-3.012 1.793-4.687 4.533-4.687 1.312 0 2.686.235 2.686.235v2.953h-1.514c-1.494 0-1.96.929-1.96 1.883V12h3.328l-.532 3.465h-2.796v8.385A12.002 12.002 0 0 0 24 12"
+              />
+            </svg>
+          </a>
+        </div>
+
+        <div class="text-center mt-3">
+          <small
+            >Sudah punya akun?
+            <a href="login.html" class="login-link">Login</a></small
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Modal S&K (custom) ===== -->
+    <div
+      class="modal custom-terms"
+      id="termsModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="termsTitle"
+    >
+      <div class="modal-card">
+        <div class="modal-head">
+          <h3 class="modal-title" id="termsTitle">
+            Syarat & Ketentuan Caffora
+          </h3>
+          <button class="btn-outline" id="closeTerms" aria-label="Tutup">
+            Tutup
+          </button>
+        </div>
+        <div class="modal-body" id="termsBody">
+          <p>
+            <strong>1. Akun & Privasi</strong><br />Data pribadi Anda (nama,
+            email) digunakan untuk keperluan layanan dan tidak dibagikan tanpa
+            persetujuan.
+          </p>
+          <p>
+            <strong>2. Keamanan</strong><br />Jaga kerahasiaan password.
+            Aktivitas yang terjadi pada akun Anda adalah tanggung jawab Anda.
+          </p>
+          <p>
+            <strong>3. Pemesanan & Pembayaran</strong><br />Harga dapat berubah
+            sewaktu-waktu. Pesanan dianggap sah setelah pembayaran
+            terkonfirmasi.
+          </p>
+          <p>
+            <strong>4. Kebijakan Refund</strong><br />Refund mengikuti kebijakan
+            gerai. Hubungi kami maksimal 1×24 jam setelah transaksi.
+          </p>
+          <p>
+            <strong>5. Perubahan Ketentuan</strong><br />Kami dapat memperbarui
+            ketentuan ini dan akan mengumumkannya di situs.
+          </p>
+          <p>
+            Dengan menyetujui, Anda menyatakan telah membaca dan memahami
+            seluruh ketentuan di atas.
+          </p>
+          <p style="margin-bottom: 0">
+            <em>Scroll sampai bawah untuk mengaktifkan tombol Setuju.</em>
+          </p>
+          <div style="height: 320px"></div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn-outline" id="cancelTerms">Batal</button>
+          <button class="btn-accept" id="acceptTerms" disabled>Setuju</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Toggle password (dua field) — gaya & perilaku sama seperti login
+      (function () {
+        const pairs = [
+          { input: "password", btn: "togglePw1", icon: "eyeIcon1" },
+          { input: "confirm_password", btn: "togglePw2", icon: "eyeIcon2" },
+        ];
+        pairs.forEach(({ input, btn, icon }) => {
+          const pw = document.getElementById(input);
+          const b = document.getElementById(btn);
+          const ic = document.getElementById(icon);
+          b.addEventListener("click", function () {
+            const show = pw.type === "password";
+            pw.type = show ? "text" : "password";
+            ic.classList.toggle("bi-eye", !show);
+            ic.classList.toggle("bi-eye-slash", show);
+            this.setAttribute("aria-pressed", String(show));
+          });
+        });
+      })();
+
+      // ===== Modal S&K (custom) =====
+      (function () {
+        const modal = document.getElementById("termsModal");
+        const openBtn = document.getElementById("openTerms");
+        const closeBtn = document.getElementById("closeTerms");
+        const cancelBtn = document.getElementById("cancelTerms");
+        const acceptBtn = document.getElementById("acceptTerms");
+        const termsBody = document.getElementById("termsBody");
+        const agreeCb = document.getElementById("agree");
+
+        function openModal() {
+          modal.classList.add("open");
+          termsBody.scrollTop = 0;
+          setTimeout(() => {
+            acceptBtn.disabled =
+              termsBody.scrollHeight > termsBody.clientHeight + 2;
+          }, 50);
+        }
+        function closeModal() {
+          modal.classList.remove("open");
+        }
+
+        openBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          openModal();
+        });
+        closeBtn.addEventListener("click", closeModal);
+        cancelBtn?.addEventListener("click", closeModal);
+
+        termsBody.addEventListener("scroll", () => {
+          const atBottom =
+            termsBody.scrollTop + termsBody.clientHeight >=
+            termsBody.scrollHeight - 2;
+          if (atBottom) acceptBtn.disabled = false;
+        });
+        acceptBtn.addEventListener("click", () => {
+          agreeCb.disabled = false;
+          agreeCb.checked = true;
+          closeModal();
+        });
+        modal.addEventListener("click", (ev) => {
+          if (ev.target === modal) closeModal();
+        });
+        document.addEventListener("keydown", (ev) => {
+          if (ev.key === "Escape" && modal.classList.contains("open"))
+            closeModal();
+        });
+      })();
+
+      // Guard submit (OTP flow tetap)
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", (e) => {
+          const p1 = document.getElementById("password").value.trim();
+          const p2 = document.getElementById("confirm_password").value.trim();
+          if (p1 !== p2) {
+            e.preventDefault();
+            alert("Konfirmasi password tidak sama.");
+            return;
+          }
+          if (!document.getElementById("agree").checked) {
+            e.preventDefault();
+            alert("Silakan baca & setujui Syarat & Ketentuan.");
+          }
+        });
+    </script>
+  </body>
+</html>
